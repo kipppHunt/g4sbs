@@ -654,7 +654,7 @@ void Fit_3D_track( vector<double> xpoints, vector<double> ypoints, vector<double
   Yp = solution(3);
 }
 
-void ElasticEP_Correlation_Analysis_withSpinTrans_julytest(const char *inputfilename, const char *outputfilename="july7_elasticEP_output_deffil.root"){
+void ElasticEP_Correlation_Analysis_withSpinTrans_julytest(const char *inputfilename, const char *outputfilename="dec9_elasticEP_output_6mmPb.root"){
   //start by reading list of files and creating the TChain:
 
   random_generator = new TRandom3(0);
@@ -678,6 +678,11 @@ void ElasticEP_Correlation_Analysis_withSpinTrans_julytest(const char *inputfile
   TH1D *hpmissp_fractional_cut = new TH1D("hpmissp_fractional_cut","",100,-0.1,0.1);
   TH1D *hpmissp_fractional_anticut = new TH1D("hpmissp_fractional_anticut","",100,-0.1,0.1);
   TH1D *hdvz = new TH1D("hdvz","",100,-50.,50.); //mm
+
+  TH1D *hdxptar = new TH1D("hdxptar","",100,-0.1,0.1); //fraction of p
+  TH1D *hdyptar = new TH1D("hdyptar","",100,-0.1,0.1); //fraction of p
+  TH1D *hdpp_true = new TH1D("hdpp","",100,-0.1,0.1); //fraction of p
+  TH1D *hdytar = new TH1D("hdpp","",100,-0.5,0.5); //fraction of p
 
   TH1D *hdtheta_bend = new TH1D("hdtheta_bend","", 250,-50.0,50.0);
   TH1D *htheta_bend_eth = new TH1D("htheta_bend_eth","", 250, -90.0, 90.0);
@@ -1403,8 +1408,29 @@ void ElasticEP_Correlation_Analysis_withSpinTrans_julytest(const char *inputfile
 
       //nevermind, don't do that.
 
-      int ibest=-1;
+      TVector3 pp_true_global( sin(thtrue)*cos(pphitrue), sin(thtrue)*sin(pphitrue), cos(thtrue) );
 
+      // OR something like:
+      
+      TVector3 pphat_true_global( T->ev_npx, T->ev_npy, T->ev_npz);
+      
+      
+      // Don't forget to convert to unit vector:
+      
+      double xptartrue = pphat_true_global.Dot( SBS_xaxis_global ) / pphat_true_global.Dot( SBS_zaxis_global ); //dx/dz of the TRUE proton track
+      
+      double yptartrue = pphat_true_global.Dot( SBS_yaxis_global ) / pphat_true_global.Dot( SBS_zaxis_global );
+      
+      hdxptar->Fill( xptartemp - xptartrue, weight );
+      
+      hdyptar->Fill( yptartemp - yptartrue, weight );
+      
+      hdpp_true->Fill( precon/ptrue - 1.0, weight );
+      
+      hdytar->Fill( ytartemp-ytartrue, weight );
+      
+      int ibest=-1;
+      
       double Eclust_max = 0.0;
       double xclust_max, yclust_max;
       

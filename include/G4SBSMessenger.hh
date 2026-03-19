@@ -206,6 +206,10 @@ private:
   G4UIcmdWithAString *HadronFilterMaterialCmd;
   G4UIcmdWithABool *HadronFilterPerpendicularCmd;
 
+  G4UIcmdWithABool *HArmFilterToggleCmd;
+  G4UIcmdWithADoubleAndUnit *HArmFilterThickCmd;
+  G4UIcmdWithAString *HArmFilterMaterialCmd;
+
   G4UIcmdWithABool *LeadWallConnectedCmd;
   G4UIcmdWithABool *OldLeadWallCmd;
   G4UIcmdWithABool *OldLeadWall1Cmd;

@@ -46,7 +46,15 @@ public:
 
   void SetLeadWallThick( G4double t){ fLeadWallThick = t; }
   void SetLeadInsertUpstreamOffset( G4double t){ fLeadInsertUpstreamOffset = t; }  
-  void SetLeadInsertLeftOffset( G4double t){ fLeadInsertLeftOffset = t; }  
+  void SetLeadInsertLeftOffset( G4double t){ fLeadInsertLeftOffset = t; }
+
+  void SetHArmFilterThick( G4double v ){ fHArmFilterThick = v; }
+  void SetHArmFilterMaterial( G4String str ){ fHArmFilterMaterial = str; }
+  void EnableHArmFilter( G4bool b ){ fUseHArmFilter = b; }
+
+  G4bool fUseHArmFilter;  
+  G4double fHArmFilterThick;
+  G4String fHArmFilterMaterial;
 
   void Make48D48(G4LogicalVolume*, double);
   void MakeSBSFieldClamps(G4LogicalVolume*);

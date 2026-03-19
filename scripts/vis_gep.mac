@@ -61,8 +61,9 @@
 
 /g4sbs/usehadronfilter false
 /g4sbs/leadwallconnect true
-/g4sbs/leadwallthick 0.05 cm
-
+/g4sbs/useharmfilter true
+/g4sbs/harmfilterthick 6 cm
+/g4sbs/harmfiltermaterial Lead
 
 # option 2: double-analyzer (both CH2)
 #/g4sbs/gepfppoption 2
@@ -124,6 +125,8 @@
 #
 # Draw coordinate axes:
 #/vis/scene/add/axes 0 0 0 1 m
+#/vis/scene/add/axes -4.703 +1.2 +12.960 1.0 m
+
 #
 # Draw smooth trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:

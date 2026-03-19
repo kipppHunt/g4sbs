@@ -697,7 +697,20 @@ G4SBSMessenger::G4SBSMessenger(){
   HadronFilterPerpendicularCmd = new G4UIcmdWithABool("/g4sbs/hadronfilterperp", this);
   HadronFilterPerpendicularCmd->SetGuidance("True if using perpendicular variant of hadron filter");
   HadronFilterPerpendicularCmd->SetParameterName("hadronfilterperp",false);
+  
 
+  HArmFilterToggleCmd = new G4UIcmdWithABool("/g4sbs/useharmfilter",this);
+  HArmFilterToggleCmd->SetGuidance("Use target shield wall for GEP/GEN/GEN-RP/SIDIS (yes/no)");
+
+  HArmFilterThickCmd = new G4UIcmdWithADoubleAndUnit("/g4sbs/harmfilterthick",this);
+  HArmFilterThickCmd->SetGuidance("target shield wall thickness");
+  HArmFilterThickCmd->SetParameterName("harmfilterthick",false);
+
+  HArmFilterMaterialCmd = new G4UIcmdWithAString("/g4sbs/harmfiltermaterial",this);
+  HArmFilterMaterialCmd->SetGuidance("Material for target shield wall");
+  HArmFilterMaterialCmd->SetGuidance("any valid material defined in G4SBSDetectorConstruction::ConstructMaterials()");
+  HArmFilterMaterialCmd->SetParameterName("harmfiltermaterial",false);
+  
 
   LeadWallConnectedCmd = new G4UIcmdWithABool("/g4sbs/leadwallconnect", this);
   LeadWallConnectedCmd->SetGuidance("Testing one solid wall vs two pieces separated in z at the analyzer");
@@ -2310,6 +2323,21 @@ void G4SBSMessenger::SetNewValue(G4UIcommand* cmd, G4String newValue){
     fdetcon->fTargetBuilder->EnableHadronFilterPerpendicular( usehadronfilterperp );
   }
 
+    if( cmd == HArmFilterToggleCmd ){
+    G4bool flag = HArmFilterToggleCmd->GetNewBoolValue(newValue);
+    fdetcon->fHArmBuilder->EnableHArmFilter(flag);
+  }
+
+  if( cmd == HArmFilterThickCmd ){
+    G4double shieldthick = HArmFilterThickCmd->GetNewDoubleValue(newValue);
+    fdetcon->fHArmBuilder->SetHArmFilterThick( shieldthick );
+  }
+
+  if( cmd == HArmFilterMaterialCmd ){
+    G4String matname = newValue;
+    fdetcon->fHArmBuilder->SetHArmFilterMaterial( matname );
+  }
+  
   if( cmd == LeadWallConnectedCmd ){
     G4bool useconnectedwall = LeadWallConnectedCmd->GetNewBoolValue(newValue);
     fdetcon->fHArmBuilder->EnableLeadWallConnected( useconnectedwall );

@@ -1287,11 +1287,16 @@ void G4SBSECal::MakeECal_new(G4LogicalVolume *motherlog){
   /*
   G4double yfp_start_42[23] = {-58.69*cm, -54.73*cm, -58.69*cm, -54.73*cm, -58.69*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, 
 			       -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -50.81*cm, -58.60*cm,
-			       -54.97*cm, -58.76*cm, -55.13*cm};// from bottom to top
+			       -54.97*cm, -58.76*cm, -55.13*cm};// from bottom to top, old values used before Don's in-hall measurements
   */
+  /*
   G4double yfp_start_42[23] = {-58.73*cm, -54.61*cm, -58.73*cm, -54.61*cm, -58.73*cm, -52.87*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, 
-			       -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -58.73*cm,
-			       -54.29*cm, -58.73*cm, -54.29*cm};// from bottom to top, make these match center frame measurement from Don Jones, thus the user command shift is relative to frame center, by default this shift is -2.25in to put ecal at crystal center
+  			       -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -58.73*cm,
+			       -54.29*cm, -58.73*cm, -54.29*cm};// from bottom to top, make these match center frame measurement from Don Jones, thus the user command shift is relative to frame center, by default this shift is -2.25in to put ecal at crystal center, 4-4-25, the fifth value in this list is a typo and should be -58.896 rather than -58.73
+  */
+  G4double yfp_start_42[23] = {-58.738*cm, -54.610*cm, -58.738*cm, -54.610*cm, -58.896*cm, -52.864*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, 
+			       -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -53.02*cm, -58.738*cm,
+			       -54.293*cm, -58.738*cm, -54.293*cm}; //4-4-25 these values match the "distance 4" values in Don Jones excel doc with measurements made from the frame center, so we need the fHOff to adjust the detector towards the small angle side. The crystal center is 2.25in to the left of the frame center, thus shifting everything to the right (negative y shift) aligns ecal with crystal center.
   //for(int i = 0; i < 23; i++){
   //yfp_start_42[i] += (fHOff + 2.25*2.54*cm);
   //}

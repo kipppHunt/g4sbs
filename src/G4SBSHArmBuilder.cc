@@ -63,6 +63,10 @@ G4SBSHArmBuilder::G4SBSHArmBuilder(G4SBSDetectorConstruction *dc):G4SBSComponent
   fHCALhorizontal_offset = 0.0*cm;
   fHCALangular_offset = 0.0*deg;
 
+  fHArmFilterThick = 1.0*cm;
+  fHArmFilterMaterial = G4String("Copper");
+  fUseHArmFilter = true;
+
   fLACvertical_offset = 0.0*cm;
   fLAChorizontal_offset = 0.0*cm;
 
@@ -978,21 +982,25 @@ void G4SBSHArmBuilder::MakeSBSFieldClamps( G4LogicalVolume *motherlog ){
 
       RearClamp_log->SetVisAttributes(clampVisAtt);
     } // Rear clamp log (GEp)
-    /*
+    
     G4RotationMatrix *rot_copper = new G4RotationMatrix;
 
-    rot_copper->rotateY( 17.0*deg + 4.4*deg);
+    //rot_copper->rotateY( 22.0*deg);
 
-    G4Box *copper_shield = new G4Box("copper_shield", (22.0*2.54*cm)/2.0, (22.0*2.54*cm)/2.0, (2.54*cm)/2.0);
+    G4Box *copper_shield = new G4Box("copper_shield", (23.5*2.54*cm)/2.0, (28.0*2.54*cm)/2.0, fHArmFilterThick/2.0);
 
-    G4LogicalVolume *copper_shield_log = new G4LogicalVolume( copper_shield, GetMaterial("Copper"), "copper_shield_log" );
+    G4LogicalVolume *copper_shield_log = new G4LogicalVolume( copper_shield, GetMaterial(fHArmFilterMaterial), "copper_shield_log" );
 
-    //G4ThreeVector copper_shield_pos(RearClamp_pos.X(), RearClamp_pos.Y(), RearClamp_pos.Z() - 120.0*cm);
-    //G4ThreeVector copper_shield_pos( -FrontClamp_r*sin( f48D48ang ) + FrontClamp_xoffset*cos(f48D48ang) - 7.0*cm, 0.0, FrontClamp_r*cos(f48D48ang) + FrontClamp_xoffset*sin(f48D48ang) - 12.0*cm);
-    G4ThreeVector copper_shield_pos(-50.0*cm, 0.0, 103.0*cm); 
+    //G4ThreeVector copper_shield_pos(-50.0*cm, 0.0, 103.0*cm);
+
+    G4double HArm_r = FrontClamp_r - FrontClamp_depth/2.0 - fHArmFilterThick/2.0;
+    G4double HArm_xoffset = FrontClamp_xoffset - 10.0*cm;
+
+    if(fUseHArmFilter == true){
+      new G4PVPlacement( clamp_rot, G4ThreeVector( -HArm_r*sin( f48D48ang ) + HArm_xoffset*cos(f48D48ang), 0.0, HArm_r*cos(f48D48ang) + HArm_xoffset*sin(f48D48ang)), copper_shield_log, "copper_shield_phys", motherlog, false, 0, false );
+    }
+    //new G4PVPlacement( rot_copper, copper_shield_pos, copper_shield_log, "copper_shield_phys", motherlog, false, 0, false );
     
-    new G4PVPlacement( rot_copper, copper_shield_pos, copper_shield_log, "copper_shield_phys", motherlog, false, 0, false );
-    */
 
     
     //Make lead shielding in clamp:
